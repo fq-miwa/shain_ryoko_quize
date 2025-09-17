@@ -60,6 +60,8 @@ export default function Page() {
     }
   }, [index]);
 
+  // 完了済みかどうかは progress のみで判定（quiz_completed は不要）
+
   async function answer(choiceIndex: 0 | 1 | 2) {
     if (!questions) return;
     const q = questions[index];
@@ -88,7 +90,7 @@ export default function Page() {
 
   if (index >= questions.length) {
     if (typeof window !== 'undefined') {
-      // 完了後も再訪時に /result へ誘導するため、進捗は保持したままにする
+      // 完了後は進捗のみ保持（設問数以上なら常に /result へ）
       localStorage.setItem('quiz_progress_index', String(questions.length));
       window.location.href = '/result';
     }
