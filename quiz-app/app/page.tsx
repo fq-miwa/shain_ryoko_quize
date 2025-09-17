@@ -37,6 +37,11 @@ export default function Page() {
         if (!Number.isNaN(savedIndex)) {
           const clamped = Math.max(0, Math.min(savedIndex, qs.length));
           setIndex(clamped);
+          if (clamped >= qs.length && typeof window !== 'undefined') {
+            // すでに全問回答済みなら即リダイレクト
+            window.location.href = '/result';
+            return;
+          }
         }
       } catch (e) {
         setError('読み込みに失敗しました');
