@@ -26,6 +26,15 @@ export default function Page() {
   const hasRestoredRef = useRef(false);
 
   useEffect(() => {
+    // 先にローカルの進捗を仮復元して初期レンダで先頭に戻らないようにする
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quiz_progress_index');
+      const savedIndex = saved ? parseInt(saved, 10) : 0;
+      if (!Number.isNaN(savedIndex)) {
+        setIndex(savedIndex);
+      }
+    }
+
     (async () => {
       try {
         const res = await fetch('/api/questions', { cache: 'no-store' });
