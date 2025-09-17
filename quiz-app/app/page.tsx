@@ -88,7 +88,8 @@ export default function Page() {
 
   if (index >= questions.length) {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('quiz_progress_index');
+      // 完了後も再訪時に /result へ誘導するため、進捗は保持したままにする
+      localStorage.setItem('quiz_progress_index', String(questions.length));
       window.location.href = '/result';
     }
     return null;
