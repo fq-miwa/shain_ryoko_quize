@@ -71,12 +71,8 @@ export async function createResponse(payload: AnswerPayload): Promise<void> {
   await notion.pages.create({
     parent: { database_id: RESPONSES_DB_ID },
     properties: {
-      // タイトル列（Name/Title）に QuestionId をそのまま入れる
-      Name: { title: [{ type: 'text', text: { content: payload.questionId } }] },
-      Title: { title: [{ type: 'text', text: { content: payload.questionId } }] },
-
       QuestionId: {
-        rich_text: [{ type: 'text', text: { content: payload.questionId } }]
+        title: [{ type: 'text', text: { content: payload.questionId } }]
       },
       ChoiceIndex: { number: payload.choiceIndex },
       ClientId: {
