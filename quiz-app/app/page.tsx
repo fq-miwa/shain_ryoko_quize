@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Question = {
   id: string;
@@ -23,6 +23,7 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasRestoredRef = useRef(false);
 
   useEffect(() => {
     (async () => {
@@ -43,6 +44,7 @@ export default function Page() {
             return;
           }
         }
+        hasRestoredRef.current = true;
       } catch (e) {
         setError('読み込みに失敗しました');
       } finally {
@@ -56,7 +58,10 @@ export default function Page() {
   // インデックスが変わるたびに確実に保存
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('quiz_progress_index', String(index));
+      // 初期復元が完了するまで保存しない（0で上書きされるのを防止）
+      if (hasRestoredRef.current) {
+        localStorage.setItem('quiz_progress_index', String(index));
+      }
     }
   }, [index]);
 
