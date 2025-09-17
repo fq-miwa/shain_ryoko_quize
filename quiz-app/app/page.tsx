@@ -115,7 +115,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行アンケート'}</h1>
+      <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}</h1>
       <div style={{ margin: '16px 0', color: '#666' }}>質問 {index + 1} / {questions.length}</div>
       <div style={{ fontSize: 20, marginBottom: 16 }}>{q.title}</div>
       <div style={{ display: 'grid', gap: 12 }}>
