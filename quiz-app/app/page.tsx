@@ -27,7 +27,7 @@ export default function Page() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('/api/questions');
+        const res = await fetch('/api/questions', { cache: 'no-store' });
         const data = await res.json();
         setQuestions(data.questions as Question[]);
       } catch (e) {
