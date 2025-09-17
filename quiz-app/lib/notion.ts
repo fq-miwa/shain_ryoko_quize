@@ -18,20 +18,45 @@ export async function fetchQuestions(): Promise<Question[]> {
   });
 
   const questions: Question[] = response.results.map((page: any) => {
-    const title = page.properties.Title?.title?.[0]?.plain_text ?? '';
-    const choicesProp = page.properties.Choices;
-    const choices: string[] =
-      choicesProp?.type === 'rich_text'
-        ? choicesProp.rich_text.map((t: any) => t.plain_text)
-        : choicesProp?.type === 'multi_select'
-          ? choicesProp.multi_select.map((s: any) => s.name)
-          : [];
+    // タイトル列は名称が Name/タイトル/Title などの場合があるため自動検出
+    const titleProp = page.properties.Title?.type === 'title'
+      ? page.properties.Title
+      : Object.values<any>(page.properties).find((p: any) => p?.type === 'title');
+    const title = (titleProp?.title || []).map((t: any) => t.plain_text).join('').trim();
+
+    // 新仕様: Choice1 / Choice2 / Choice3（Rich text推奨）
+    const readText = (prop: any): string => {
+      if (!prop) return '';
+      if (prop.type === 'rich_text') return (prop.rich_text || []).map((t: any) => t.plain_text).join('').trim();
+      if (prop.type === 'select') return prop.select?.name ?? '';
+      if (prop.type === 'multi_select') return (prop.multi_select || []).map((s: any) => s.name).join(',').trim();
+      if (prop.type === 'title') return (prop.title || []).map((t: any) => t.plain_text).join('').trim();
+      return '';
+    };
+
+    const choice1 = readText(page.properties.Choice1);
+    const choice2 = readText(page.properties.Choice2);
+    const choice3 = readText(page.properties.Choice3);
+
+    // 旧仕様: Choices（rich_text または multi_select）フォールバック
+    const legacy = page.properties.Choices;
+    const legacyChoices: string[] = legacy?.type === 'rich_text'
+      ? (legacy.rich_text || []).map((t: any) => t.plain_text)
+      : legacy?.type === 'multi_select'
+        ? (legacy.multi_select || []).map((s: any) => s.name)
+        : [];
+
+    const choices = [
+      choice1 || legacyChoices[0] || '',
+      choice2 || legacyChoices[1] || '',
+      choice3 || legacyChoices[2] || ''
+    ] as [string, string, string];
 
     const order = page.properties.Order?.number ?? 0;
     return {
       id: page.id,
       title,
-      choices: [choices[0] ?? '', choices[1] ?? '', choices[2] ?? ''] as [string, string, string],
+      choices,
       order
     };
   });
