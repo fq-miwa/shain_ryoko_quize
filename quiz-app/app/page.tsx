@@ -48,22 +48,30 @@ export default function Page() {
 
   const clientId = useMemo(() => (typeof window !== 'undefined' ? getOrCreateClientId() : ''), []);
 
+  // インデックスが変わるたびに確実に保存
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('quiz_progress_index', String(index));
+    }
+  }, [index]);
+
   async function answer(choiceIndex: 0 | 1 | 2) {
     if (!questions) return;
     const q = questions[index];
     try {
-      await fetch('/api/answer', {
+      // 先に進捗を前進させて保存し、失敗時はロールバック
+      const next = index + 1;
+      setIndex(next);
+      const res = await fetch('/api/answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questionId: q.id, choiceIndex, clientId })
       });
-      setIndex((i) => {
-        const next = i + 1;
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('quiz_progress_index', String(next));
-        }
-        return next;
-      });
+      if (!res.ok) {
+        // 送信失敗。元に戻す
+        setIndex((i) => Math.max(0, i - 1));
+        throw new Error('submit failed');
+      }
     } catch {
       alert('送信に失敗しました');
     }
