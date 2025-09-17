@@ -53,8 +53,10 @@ export async function fetchQuestions(): Promise<Question[]> {
     ] as [string, string, string];
 
     const order = page.properties.Order?.number ?? 0;
+    const customQuestionId = readText(page.properties.QuestionId) || '';
     return {
-      id: page.id,
+      // 優先: 質問DBの QuestionId（Rich text）。未設定なら Notion ページID。
+      id: customQuestionId || page.id,
       title,
       choices,
       order
@@ -65,9 +67,15 @@ export async function fetchQuestions(): Promise<Question[]> {
 }
 
 export async function createResponse(payload: AnswerPayload): Promise<void> {
+  // NotionのDBには必ずタイトル型の列が1つ必要。一般的には 'Name'。一部で 'Title' としている場合も考慮して両方セット。
+  const now = new Date().toISOString();
   await notion.pages.create({
     parent: { database_id: RESPONSES_DB_ID },
     properties: {
+      // タイトル列（どちらかがヒットすればOK。存在しない方は無視されます）
+      Name: { title: [{ type: 'text', text: { content: `Response ${now}` } }] },
+      Title: { title: [{ type: 'text', text: { content: `Response ${now}` } }] },
+
       QuestionId: {
         rich_text: [{ type: 'text', text: { content: payload.questionId } }]
       },
