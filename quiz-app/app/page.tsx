@@ -29,7 +29,15 @@ export default function Page() {
       try {
         const res = await fetch('/api/questions', { cache: 'no-store' });
         const data = await res.json();
-        setQuestions(data.questions as Question[]);
+        const qs = data.questions as Question[];
+        setQuestions(qs);
+        // 保存済みの進捗を復元
+        const saved = typeof window !== 'undefined' ? localStorage.getItem('quiz_progress_index') : null;
+        const savedIndex = saved ? parseInt(saved, 10) : 0;
+        if (!Number.isNaN(savedIndex)) {
+          const clamped = Math.max(0, Math.min(savedIndex, qs.length));
+          setIndex(clamped);
+        }
       } catch (e) {
         setError('読み込みに失敗しました');
       } finally {
@@ -49,7 +57,13 @@ export default function Page() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questionId: q.id, choiceIndex, clientId })
       });
-      setIndex((i) => i + 1);
+      setIndex((i) => {
+        const next = i + 1;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('quiz_progress_index', String(next));
+        }
+        return next;
+      });
     } catch {
       alert('送信に失敗しました');
     }
@@ -61,6 +75,7 @@ export default function Page() {
 
   if (index >= questions.length) {
     if (typeof window !== 'undefined') {
+      localStorage.removeItem('quiz_progress_index');
       window.location.href = '/result';
     }
     return null;
