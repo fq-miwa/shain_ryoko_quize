@@ -1,5 +1,5 @@
 export const metadata = {
-  title: process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行アンケート',
+  title: process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会アンケート',
   description: '3択アンケート'
 };
 
@@ -12,5 +12,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
-
