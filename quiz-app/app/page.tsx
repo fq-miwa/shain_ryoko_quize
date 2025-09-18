@@ -150,9 +150,9 @@ export default function Page() {
               padding: '12px 16px',
               fontSize: 16,
               cursor: 'pointer',
+              borderRadius: 8,
               border: '1px solid #ccc',
               background: '#add8e6',
-              color: '#fff',
             }}
           >
             {c || `選択肢${i + 1}`}
