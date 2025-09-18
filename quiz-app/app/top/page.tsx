@@ -54,6 +54,15 @@ export default function TopPage() {
           開始する
         </button>
       </div>
+
+      <div style={{ marginTop: 32, textAlign: 'center' }}>
+        {/* 画像ファイルは public/cheers.png に配置してください */}
+        <img
+          src="/cheers.png"
+          alt="乾杯イラスト"
+          style={{ maxWidth: '60%', height: 'auto', maxHeight: 320, objectFit: 'contain' }}
+        />
+      </div>
     </div>
   );
 }
