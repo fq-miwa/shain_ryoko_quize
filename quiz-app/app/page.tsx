@@ -153,6 +153,7 @@ export default function Page() {
               borderRadius: 8,
               border: '1px solid #ccc',
               background: '#add8e6',
+              color: '#000',
             }}
           >
             {c || `選択肢${i + 1}`}
