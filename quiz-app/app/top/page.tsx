@@ -61,7 +61,7 @@ export default function TopPage() {
         />
       </div>
 
-      <p style={{ position: 'absolute', bottom: 10, fontSize: 12 }}>細かい動確はしてないのでデバッグ行為はお控えください。。。（笑）</p>
+      <p style={{ position: 'absolute', bottom: 10, fontSize: 12 }}>細かい動確はしてないのでデバッグ行為はお控えください。。。</p>
     </div>
   );
 }
