@@ -16,17 +16,44 @@ export default function TopPage() {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}</h1>
-      <p style={{ margin: '12px 0' }}>このアンケートは社員旅行の宴会で使用します。回答は匿名で保存されます。</p>
-      <p style={{ margin: '12px 0' }}>全部で {total ?? 8} 問あります。所要時間は数分です。</p>
-      <p style={{ margin: '12px 0' }}>ご協力お願いいたします。</p>
-      <button
-        onClick={() => { if (typeof window !== 'undefined') { localStorage.setItem('quiz_started', '1'); window.location.href = '/'; } }}
-        style={{ padding: '12px 20px', fontSize: 16, cursor: 'pointer' }}
-      >
-        開始する
-      </button>
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: 16 }}>
+      <h1 style={{ fontSize: 28, margin: '16px 0 24px', textAlign: 'center' }}>
+        {process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}
+      </h1>
+
+      <div style={{ margin: '24px 0' }}>
+        <p style={{ margin: '16px 0', lineHeight: 1.8 }}>
+          このアンケートは社員旅行の宴会で使用します。回答は匿名で保存されます。
+        </p>
+        <p style={{ margin: '16px 0', lineHeight: 1.8 }}>
+          全部で {total ?? 8} 問あります。所要時間は数分です。
+        </p>
+        <p style={{ margin: '16px 0', lineHeight: 1.8 }}>
+          ご協力お願いいたします。
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
+        <button
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('quiz_started', '1');
+              window.location.href = '/';
+            }
+          }}
+          style={{
+            padding: '12px 28px',
+            fontSize: 18,
+            cursor: 'pointer',
+            borderRadius: 8,
+            border: '1px solid #ccc',
+            background: '#0ea5e9',
+            color: '#fff',
+          }}
+        >
+          開始する
+        </button>
+      </div>
     </div>
   );
 }
