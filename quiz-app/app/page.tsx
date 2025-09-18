@@ -25,6 +25,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const hasRestoredRef = useRef(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     // 先にローカルの進捗を仮復元して初期レンダで先頭に戻らないようにする
@@ -34,6 +35,8 @@ export default function Page() {
       if (!Number.isNaN(savedIndex)) {
         setIndex(savedIndex);
       }
+      const startedFlag = localStorage.getItem('quiz_started') === '1';
+      setStarted(startedFlag);
     }
 
     (async () => {
@@ -53,6 +56,10 @@ export default function Page() {
             window.location.href = '/result';
             return;
           }
+        }
+        if (typeof window !== 'undefined') {
+          const startedFlag = localStorage.getItem('quiz_started') === '1';
+          setStarted(startedFlag);
         }
         hasRestoredRef.current = true;
       } catch (e) {
@@ -113,6 +120,12 @@ export default function Page() {
   }
 
   const q = questions[index];
+
+  // 開始前は /top へ誘導
+  if (!started && typeof window !== 'undefined') {
+    window.location.href = '/top';
+    return null;
+  }
 
   return (
     <div>
