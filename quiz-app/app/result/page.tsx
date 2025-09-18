@@ -10,7 +10,9 @@ export default function ResultPage() {
           style={{ maxWidth: '60%', height: 'auto', maxHeight: 320, objectFit: 'contain' }}
         />
       </div>
+      <p style={{ position: 'absolute', bottom: 10, right: 30 }}>このアプリ製作裏話は
+        <a href="https://4qualia.docbase.io/posts/3928966" target="_blank" rel="noopener noreferrer">こちら</a>
+      </p>から・・・
     </div>
   );
 }
-
