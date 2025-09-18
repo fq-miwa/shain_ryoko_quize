@@ -129,7 +129,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}</h1>
+      <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会アンケート'}</h1>
       <div style={{ margin: '16px 0', color: '#666' }}>質問 {index + 1} / {questions.length}</div>
       <div style={{ fontSize: 25, marginBottom: 16 }}>{q.title}</div>
       {q.imageUrl && (
@@ -146,7 +146,14 @@ export default function Page() {
           <button
             key={i}
             onClick={() => answer(i as 0 | 1 | 2)}
-            style={{ padding: '12px 16px', fontSize: 16, cursor: 'pointer' }}
+            style={{
+              padding: '12px 16px',
+              fontSize: 16,
+              cursor: 'pointer',
+              border: '1px solid #ccc',
+              background: '#add8e6',
+              color: '#fff',
+            }}
           >
             {c || `選択肢${i + 1}`}
           </button>
@@ -155,5 +162,3 @@ export default function Page() {
     </div>
   );
 }
-
-
