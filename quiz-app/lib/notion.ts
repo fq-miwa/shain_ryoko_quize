@@ -54,12 +54,20 @@ export async function fetchQuestions(): Promise<Question[]> {
 
     const order = page.properties.Order?.number ?? 0;
     const customQuestionId = readText(page.properties.QuestionId) || '';
+    
+    // 画像URL取得（Files & Media プロパティ）
+    const imageProp = page.properties.Image || page.properties.画像;
+    const imageUrl = imageProp?.type === 'files' && imageProp.files?.length > 0 
+      ? imageProp.files[0].file?.url || imageProp.files[0].external?.url
+      : undefined;
+    
     return {
       // 優先: 質問DBの QuestionId（Rich text）。未設定なら Notion ページID。
       id: customQuestionId || page.id,
       title,
       choices,
-      order
+      order,
+      imageUrl
     };
   });
 
@@ -67,7 +75,6 @@ export async function fetchQuestions(): Promise<Question[]> {
 }
 
 export async function createResponse(payload: AnswerPayload): Promise<void> {
-  // NotionのDBには必ずタイトル型の列が1つ必要。一般的には 'Name'。一部で 'Title' としている場合も考慮して両方セット。
   await notion.pages.create({
     parent: { database_id: RESPONSES_DB_ID },
     properties: {
