@@ -3,6 +3,7 @@ export type Question = {
   title: string;
   choices: [string, string, string];
   order: number;
+  imageUrl?: string;
 };
 
 export type AnswerPayload = {
@@ -10,5 +11,3 @@ export type AnswerPayload = {
   choiceIndex: 0 | 1 | 2;
   clientId: string;
 };
-
-
