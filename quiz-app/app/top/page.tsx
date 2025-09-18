@@ -60,6 +60,8 @@ export default function TopPage() {
           style={{ maxWidth: '60%', height: 'auto', maxHeight: 320, objectFit: 'contain' }}
         />
       </div>
+
+      <p style={{ position: 'absolute', bottom: 10, fontSize: 12 }}>細かい動確はしてないのでデバッグ行為はお控えください。。。（笑）</p>
     </div>
   );
 }
