@@ -18,7 +18,7 @@ export default function TopPage() {
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: 16 }}>
       <h1 style={{ fontSize: 28, margin: '16px 0 24px', textAlign: 'center' }}>
-        {process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}
+        {process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会アンケート'}
       </h1>
 
       <div style={{ margin: '24px 0' }}>
@@ -66,5 +66,3 @@ export default function TopPage() {
     </div>
   );
 }
-
-
