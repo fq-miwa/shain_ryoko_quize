@@ -7,6 +7,7 @@ type Question = {
   title: string;
   choices: [string, string, string];
   order: number;
+  imageUrl?: string;
 };
 
 function getOrCreateClientId(): string {
@@ -118,6 +119,15 @@ export default function Page() {
       <h1 style={{ fontSize: 24, marginBottom: 8 }}>{process.env.NEXT_PUBLIC_QUIZ_TITLE || '社員旅行宴会用アンケート'}</h1>
       <div style={{ margin: '16px 0', color: '#666' }}>質問 {index + 1} / {questions.length}</div>
       <div style={{ fontSize: 20, marginBottom: 16 }}>{q.title}</div>
+      {q.imageUrl && (
+        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+          <img 
+            src={q.imageUrl} 
+            alt="質問画像" 
+            style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }}
+          />
+        </div>
+      )}
       <div style={{ display: 'grid', gap: 12 }}>
         {q.choices.map((c, i) => (
           <button
