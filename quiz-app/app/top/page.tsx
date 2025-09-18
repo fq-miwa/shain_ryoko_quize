@@ -28,9 +28,6 @@ export default function TopPage() {
         <p style={{ margin: '16px 0', lineHeight: 1.8 }}>
           全部で {total ?? 8} 問あります。所要時間は数分です。
         </p>
-        <p style={{ margin: '16px 0', lineHeight: 1.8 }}>
-          ご協力お願いいたします。
-        </p>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
